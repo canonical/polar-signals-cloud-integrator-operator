@@ -1,0 +1,5 @@
+options:
+  bearer_token:
+    type: string
+    default: ""
+    description: Polar Signals Cloud bearer token

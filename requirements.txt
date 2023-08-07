@@ -1,0 +1,3 @@
+# Copyright 2023 Jon Seager
+# See LICENSE file for licensing details.
+ops==2.5.0
