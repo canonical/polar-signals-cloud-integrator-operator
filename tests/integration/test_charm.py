@@ -27,14 +27,21 @@ async def test_deploy(ops_test: OpsTest, charm_under_test):
 @mark.abort_on_fail
 async def test_profile_store_relation(ops_test: OpsTest):
     await asyncio.gather(
-        ops_test.model.deploy("ubuntu-lite", channel="stable"),
-        ops_test.model.deploy("parca-agent", channel="edge"),
-        ops_test.model.wait_for_idle(
-            apps=["ubuntu-lite", "parca-agent"], status="active", raise_on_blocked=True, timeout=1000
+        ops_test.model.deploy(
+            "ubuntu-lite",
+            channel="stable",
+            series="jammy",
         ),
-        ops_test.model.relate("ubuntu-lite", "parca-agent"),
+        ops_test.model.deploy("parca-agent", channel="edge", num_units=0, series="jammy"),
+        ops_test.model.wait_for_idle(
+            apps=["ubuntu-lite"],
+            status="active",
+            raise_on_blocked=True,
+            timeout=1000,
+        ),
     )
     await asyncio.gather(
+        ops_test.model.relate("ubuntu-lite", "parca-agent"),
         ops_test.model.relate(PSCLOUD, "parca-agent"),
         ops_test.model.wait_for_idle(
             apps=[PSCLOUD, "parca-agent"],
