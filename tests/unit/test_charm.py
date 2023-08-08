@@ -35,7 +35,7 @@ class TestCharm(unittest.TestCase):
         expected = {
             "remote-store-address": "grpc.polarsignals.com:443",
             "remote-store-bearer-token": "deadbeef",
-            "insecure": "false",
+            "remote-store-insecure": "false",
         }
 
         self.assertEqual(expected, relation_data)
@@ -59,7 +59,7 @@ class TestCharm(unittest.TestCase):
         expected = {
             "remote-store-address": "grpc.polarsignals.com:443",
             "remote-store-bearer-token": "deadbeef",
-            "insecure": "false",
+            "remote-store-insecure": "false",
         }
 
         self.assertEqual(expected, relation_data)

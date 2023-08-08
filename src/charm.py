@@ -34,7 +34,7 @@ class PolarSignalsCloudIntegratorCharm(ops.CharmBase):
             for relation in self.model.relations["parca-store-endpoint"]:
                 relation.data[self.app]["remote-store-address"] = "grpc.polarsignals.com:443"
                 relation.data[self.app]["remote-store-bearer-token"] = token
-                relation.data[self.app]["insecure"] = "false"
+                relation.data[self.app]["remote-store-insecure"] = "false"
             self.unit.status = ops.ActiveStatus()
 
 
