@@ -7,6 +7,7 @@
 import logging
 
 import ops
+from charms.parca.v0.parca_store import ParcaStoreEndpointProvider
 
 logger = logging.getLogger(__name__)
 
@@ -21,20 +22,22 @@ class PolarSignalsCloudIntegratorCharm(ops.CharmBase):
             return
 
         self.framework.observe(self.on.config_changed, self._update)
-        self.framework.observe(self.on.parca_store_endpoint_relation_changed, self._update)
-        self.framework.observe(self.on.parca_store_endpoint_relation_joined, self._update)
+        self.framework.observe(self.on.update_status, self._update)
+
+        self.store_provider = ParcaStoreEndpointProvider(
+            self,
+            port=443,
+            insecure=False,
+            external_url="https://grpc.polarsignals.com",
+            token_generator=lambda: self.config["bearer_token"],
+            relation_name="parca-store-endpoint",
+        )
 
     def _update(self, _):
-        """Update relation data with Polar Signals Cloud details."""
-        if not (token := self.config["bearer_token"]):
-            for relation in self.model.relations["parca-store-endpoint"]:
-                relation.data[self.app]["remote-store-bearer-token"] = ""
+        """Check that the config provided is valid and set charm status accordingly."""
+        if not self.config["bearer_token"]:
             self.unit.status = ops.BlockedStatus("no cloud token configured")
         else:
-            for relation in self.model.relations["parca-store-endpoint"]:
-                relation.data[self.app]["remote-store-address"] = "grpc.polarsignals.com:443"
-                relation.data[self.app]["remote-store-bearer-token"] = token
-                relation.data[self.app]["remote-store-insecure"] = "false"
             self.unit.status = ops.ActiveStatus()
 
 
