@@ -31,6 +31,7 @@ async def test_profile_store_relation(ops_test: OpsTest):
             "ubuntu-lite",
             channel="stable",
             series="jammy",
+            constraints={"virt-type": "virtual-machine"},
         ),
         ops_test.model.deploy("parca-agent", channel="edge", num_units=0, series="jammy"),
         ops_test.model.wait_for_idle(
@@ -41,8 +42,8 @@ async def test_profile_store_relation(ops_test: OpsTest):
         ),
     )
     await asyncio.gather(
-        ops_test.model.relate("ubuntu-lite", "parca-agent"),
-        ops_test.model.relate(PSCLOUD, "parca-agent"),
+        ops_test.model.integrate("ubuntu-lite", "parca-agent"),
+        ops_test.model.integrate(PSCLOUD, "parca-agent"),
         ops_test.model.wait_for_idle(
             apps=[PSCLOUD, "parca-agent"],
             status="active",
