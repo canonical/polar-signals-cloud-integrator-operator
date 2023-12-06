@@ -56,7 +56,7 @@ jobs:
       - name: Setup operator environment
         uses: charmed-kubernetes/actions-operator@main
         with:
-          juju-channel: 3.2/stable
+          juju-channel: 3.3/stable
           provider: lxd
       - name: Run integration tests
         run: tox -e integration
