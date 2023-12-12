@@ -7,7 +7,6 @@ on:
     paths-ignore:
       - ".github/**"
       - ".gitignore"
-      - "tox.ini"
 
 jobs:
   test:
