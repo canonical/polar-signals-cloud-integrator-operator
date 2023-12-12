@@ -7,7 +7,6 @@ on:
       - ".github/workflows/renovate.yaml"
       - ".github/workflows/update-libs.yaml"
       - ".gitignore"
-      - "tox.ini"
   push:
     branches:
       - "renovate/**"
