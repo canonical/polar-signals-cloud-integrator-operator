@@ -11,9 +11,10 @@ PSCLOUD = "polar-signals-cloud"
 
 @mark.abort_on_fail
 async def test_deploy(ops_test: OpsTest, charm_under_test):
+    charm = await charm_under_test
     await asyncio.gather(
         ops_test.model.deploy(
-            charm_under_test,
+            charm,
             application_name=PSCLOUD,
             config={"bearer_token": "deadbeef"},
             series="jammy",
