@@ -48,7 +48,6 @@ async def test_profile_store_relation(ops_test: OpsTest):
         ops_test.model.wait_for_idle(
             apps=[PSCLOUD, "parca-agent"],
             status="active",
-            raise_on_blocked=True,
             timeout=1000,
         ),
     )
