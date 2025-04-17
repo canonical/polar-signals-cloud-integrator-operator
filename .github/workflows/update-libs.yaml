@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check libs
-        uses: canonical/charming-actions/check-libraries@934193396735701141a1decc3613818e412da606 # 2.6.3
+        uses: canonical/charming-actions/check-libraries@1753e0803f70445132e92acd45c905aba6473225 # 2.7.0
         with:
           credentials: "${{ secrets.CHARMHUB_TOKEN }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -29,7 +29,7 @@ jobs:
           private_key: ${{ secrets.APP_KEY }}
 
       - name: Create a PR for local changes
-        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f # v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         id: cpr
         with:
           token: ${{ steps.generate-token.outputs.token }}
