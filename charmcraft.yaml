@@ -1,8 +1,40 @@
+# Copyright 2025 Canonical
+# See LICENSE file for licensing details.
+
+name: polar-signals-cloud-integrator
+
+summary: An integrator charm for Polar Signals Cloud.
+
+description: |
+  Represent the Polar Signals Cloud service in your Juju model. Use this charm
+  to configure both Parca Agent and Parca Server deployments with the endpoints
+  and token they need to send data to Polar Signals Cloud.
+
 type: charm
-bases:
-  - build-on:
-      - name: "ubuntu"
-        channel: "22.04"
-    run-on:
-      - name: "ubuntu"
-        channel: "22.04"
+
+platforms:
+  ubuntu@22.04:amd64:
+
+parts:
+  charm:
+    source: .
+    plugin: uv
+    build-snaps: [astral-uv]
+    build-packages:
+      - git
+      - cargo
+      - rustc
+    override-build: |
+      craftctl default
+      git describe --always > $CRAFT_PART_INSTALL/version
+
+provides:
+  parca-store-endpoint:
+    interface: parca_store
+
+config:
+  options:
+    bearer_token:
+      type: string
+      default: ""
+      description: Polar Signals Cloud bearer token
