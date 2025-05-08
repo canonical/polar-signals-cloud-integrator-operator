@@ -35,7 +35,7 @@ class TestCharm(unittest.TestCase):
         self.harness.add_relation_unit(rel_id, "parca-agent/0")
 
         expected = {
-            "remote-store-address": "grpc.polarsignals.com:443",
+            "remote-store-address": "https://grpc.polarsignals.com",
             "remote-store-bearer-token": "deadbeef",
             "remote-store-insecure": "false",
         }

@@ -11,7 +11,7 @@ relation in order that the workload can be configured to use a remote store for 
 To begin, start by importing the library and subscribing to some events:
 
 ```python
-from charms.parca.v0.parca_store import (ParcaStoreEndpointRequirer, RemoveStoreEvent)
+from charms.parca_k8s.v0.parca_store import (ParcaStoreEndpointRequirer, RemoveStoreEvent)
 
 def __init__(self, *args):
     super().__init__(*args)
@@ -37,7 +37,7 @@ In this mode, your charm will be the charm that provides the store capability. I
 library, you must first import it, and initialise it in your charm's constructor:
 
 ```python
-from charms.parca.v0.parca_store import ParcaStoreEndpointProvider
+from charms.parca_k8s.v0.parca_store import ParcaStoreEndpointProvider
 
 def __init__(self, *args):
     super().__init__(*args)
@@ -57,7 +57,7 @@ If your store integrates with an ingress (such as Traefik), you will also need t
 the `external_url` parameter:
 
 ```python
-from charms.parca.v0.parca_store import ParcaStoreEndpointProvider
+from charms.parca_k8s.v0.parca_store import ParcaStoreEndpointProvider
 
 def __init__(self, *args):
     super().__init__(*args)
@@ -75,7 +75,7 @@ If your Parca store requires authentication with a bearer token, you can provide
 that can be called for generating tokens on a per-relation basis:
 
 ```python
-from charms.parca.v0.parca_store import ParcaStoreEndpointProvider
+from charms.parca_k8s.v0.parca_store import ParcaStoreEndpointProvider
 
 def __init__(self, *args):
     super().__init__(*args)
@@ -93,13 +93,12 @@ Where `self._bearer_token_generator` can be any `Callable` that returns a string
 import ipaddress
 import json
 import socket
-from typing import Callable
-from urllib.parse import urlparse
+from typing import Callable, Optional
 
 import ops
 
 # The unique Charmhub library identifier, never change it
-LIBID = "6e4ff5ec91634160817322ba929d6cc6"
+LIBID = "39b4ef21cbab48b7b046d0c313e368af"
 
 # Increment this major API version when introducing breaking changes
 LIBAPI = 0
@@ -120,7 +119,7 @@ class ParcaStoreEndpointProvider(ops.Object):
         charm,
         port: int = 7070,
         insecure: bool = False,
-        external_url: str = None,
+        external_url: Optional[str] = None,
         token_generator: Callable = lambda: "",
         relation_name: str = DEFAULT_RELATION_NAME,
     ):
@@ -131,15 +130,15 @@ class ParcaStoreEndpointProvider(ops.Object):
 
         Args:
             charm: a `ops.CharmBase` object that manages this
-                `ParcaStoreEndpointProvider` object. Typically this is `self` in the instantiating
+                `ParcaStoreEndpointProvider` object. Typically, this is `self` in the instantiating
                 class.
             port: an optional integer that represents the port on which the Parca Store listens.
-            insecure: an optional boolean that instructs clients whether or not to use TLS when
+            insecure: an optional boolean that instructs clients whether to use TLS when
                 connecting to the endpoint provided. Defaults to False, implying that by default
                 TLS should be used.
             external_url: an optional string that represents the URL at which the Parca Store
                 endpoint can be reached. Useful when the Parca Store implementation is behind
-                an ingress or reverse proxy.
+                an ingress or reverse proxy. Should NOT include the grpc(s):// scheme.
             token_generator: an optional method or lambda that can generate valid bearer tokens
                 for the Parca Store. Defaults to a lambda that returns an empty string.
             relation_name: an optional string that denotes the name of the relation endpoint.
@@ -156,11 +155,11 @@ class ParcaStoreEndpointProvider(ops.Object):
         self._app = self._charm.app
 
         events = self._charm.on[self._relation_name]
-        self.framework.observe(events.relation_joined, self._set_relation_data)
-        self.framework.observe(events.relation_changed, self._set_relation_data)
-        self.framework.observe(self._charm.on.upgrade_charm, self._set_relation_data)
+        self.framework.observe(events.relation_joined, self.set_remote_store_connection_data)
+        self.framework.observe(events.relation_changed, self.set_remote_store_connection_data)
+        self.framework.observe(self._charm.on.upgrade_charm, self.set_remote_store_connection_data)
 
-    def _set_relation_data(self, _):
+    def set_remote_store_connection_data(self, _=None):
         """Set relation data for each relation providing store connection details.
 
         Each time a profiling provider charm container is restarted it updates its own host address
@@ -169,16 +168,17 @@ class ParcaStoreEndpointProvider(ops.Object):
         """
         for relation in self._charm.model.relations[self._relation_name]:
             unit_ip = str(self._charm.model.get_binding(relation).network.bind_address)
+            if external_url := self._external_url:
+                store_address = external_url
 
-            if self._external_url:
-                parsed = urlparse(self._external_url)
-                unit_address = parsed.hostname
-            elif self._is_valid_unit_address(unit_ip):
-                unit_address = unit_ip
             else:
-                unit_address = socket.getfqdn()
+                if self._is_valid_unit_address(unit_ip):
+                    unit_address = unit_ip
+                else:
+                    unit_address = socket.getfqdn()
+                store_address = f"{unit_address}:{self._port}"
 
-            relation.data[self._app]["remote-store-address"] = f"{unit_address}:{self._port}"
+            relation.data[self._app]["remote-store-address"] = store_address
             relation.data[self._app]["remote-store-bearer-token"] = self._token_generator()
             relation.data[self._app]["remote-store-insecure"] = str(self._insecure).lower()
 
@@ -250,7 +250,7 @@ class ParcaStoreEvents(ops.ObjectEvents):
 class ParcaStoreEndpointRequirer(ops.Object):
     """Provide an interface for apps that need to send data to a Parca Store."""
 
-    on = ParcaStoreEvents()
+    on = ParcaStoreEvents()  # type: ignore
 
     def __init__(self, charm, relation_name: str = DEFAULT_RELATION_NAME):
         """Construct a Parca profile store requirer.
