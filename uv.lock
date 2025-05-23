@@ -1081,7 +1081,7 @@ requires-dist = [
     { name = "pyright", marker = "extra == 'dev'" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==8.3.5" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = "==0.21.2" },
-    { name = "pytest-operator", marker = "extra == 'dev'", specifier = "==0.39.0" },
+    { name = "pytest-operator", marker = "extra == 'dev'", specifier = "==0.42.0" },
     { name = "requests", marker = "extra == 'dev'", specifier = "==2.32.3" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.11.11" },
     { name = "tenacity", marker = "extra == 'dev'", specifier = "==9.0.0" },
@@ -1269,7 +1269,7 @@ wheels = [
 
 [[package]]
 name = "pytest-operator"
-version = "0.39.0"
+version = "0.42.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ipdb" },
@@ -1279,9 +1279,9 @@ dependencies = [
     { name = "pytest-asyncio" },
     { name = "pyyaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4d/6b/47b341961cd533d418796c7056c7adb5cb8b093a02f8db36ea22c4a7be64/pytest_operator-0.39.0.tar.gz", hash = "sha256:b66bd8c6d161593c258a5714118a51e9f37721e7cd9e503299423d8a7d900f90", size = 44144, upload-time = "2024-12-06T18:27:51.361Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/6c/1942c882fa035b300ec61653d64f2614c2cdb6113ce819176fa57a677753/pytest_operator-0.42.0.tar.gz", hash = "sha256:389afb648dab91eb8f0e224cbe58f05598e850aafc46e589fce1705577309c69", size = 46479, upload-time = "2025-04-17T18:45:09.388Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/32/2f8c9e0441607cba71aa5de167534c9bff8720ba5d0ff872a9aa5eea6a12/pytest_operator-0.39.0-py3-none-any.whl", hash = "sha256:ade76e1896eaf7f71704b537fd6661a705d81a045b8db71531d9e4741913fa19", size = 25265, upload-time = "2024-12-06T18:27:49.568Z" },
+    { url = "https://files.pythonhosted.org/packages/26/89/96ec3e0c3fe863b609ef4bea87a7cce4a185571c62d59d4d4862a5eb5fd9/pytest_operator-0.42.0-py3-none-any.whl", hash = "sha256:29ee3df46b5a47b435f63f7efa2e1433807ba723ac3890f86b88033f79b3e48c", size = 25628, upload-time = "2025-04-17T18:45:07.862Z" },
 ]
 
 [[package]]
