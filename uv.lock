@@ -723,7 +723,7 @@ wheels = [
 
 [[package]]
 name = "juju"
-version = "3.6.1.1"
+version = "3.6.1.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "backports-datetime-fromisoformat" },
@@ -741,10 +741,7 @@ dependencies = [
     { name = "websockets", version = "13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "websockets", version = "15.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/32/0816544d9997f66a48a5cd3e799d5f07687da1dc9b5234d44389cbd7b4fc/juju-3.6.1.1.tar.gz", hash = "sha256:2289abd450515b7883f12f06d42f965d31939e711c496cb8713b4b058408e589", size = 305089, upload-time = "2025-03-19T06:50:44.494Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/a0/b3e6e6b79409e384627a79636cd012dd03b5ae103669a868147faf9cd830/juju-3.6.1.1-py3-none-any.whl", hash = "sha256:19ede730130b03cd5a99850f812521c2eb93199771207b50e1edf86e5e47acb2", size = 287124, upload-time = "2025-03-19T06:50:42.358Z" },
-]
+sdist = { url = "https://files.pythonhosted.org/packages/27/c8/8166486f28f470ea0af062b7494d9a33b5ee471cc6bceb4547d7b5638fd3/juju-3.6.1.2.tar.gz", hash = "sha256:01ff58b8590b2ea19ace024c124a29d470c9e38431f5a9688ef990eef2b86889", size = 304682, upload-time = "2025-05-26T00:50:03.326Z" }
 
 [[package]]
 name = "kubernetes"
@@ -1075,7 +1072,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "coverage", extras = ["toml"], marker = "extra == 'dev'", specifier = "==6.5.0" },
-    { name = "juju", marker = "extra == 'dev'", specifier = "==3.6.1.1" },
+    { name = "juju", marker = "extra == 'dev'", specifier = "==3.6.1.2" },
     { name = "macaroonbakery", marker = "extra == 'dev'", specifier = "==1.3.4" },
     { name = "ops", specifier = "==2.21.1" },
     { name = "pyright", marker = "extra == 'dev'" },
