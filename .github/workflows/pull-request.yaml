@@ -1,12 +1,10 @@
-name: Tests
+name: Pull Requests
+
 on:
   pull_request:
-    paths-ignore:
-      - ".github/renovate*"
-      - ".github/workflows/release.yaml"
-      - ".github/workflows/renovate.yaml"
-      - ".github/workflows/update-libs.yaml"
-      - ".gitignore"
+    branches:
+      - main
+      - track/**
   push:
     branches:
       - "renovate/**"
@@ -16,7 +14,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    uses: ./.github/workflows/build-and-test.yaml
-    secrets:
-      CHARMHUB_TOKEN: "${{ secrets.CHARMHUB_TOKEN }}"
+  pull-request:
+    name: PR
+    uses: canonical/observability/.github/workflows/charm-pull-request.yaml@0a7f69ad160488269eed417f1c17c06f6cacc9eb # v1
+    secrets: inherit
+    with:
+      provider: machine

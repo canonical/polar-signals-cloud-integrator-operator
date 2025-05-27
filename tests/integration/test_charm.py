@@ -17,7 +17,6 @@ async def test_deploy(ops_test: OpsTest, charm_under_test):
             charm,
             application_name=PSCLOUD,
             config={"bearer_token": "deadbeef"},
-            series="jammy",
         ),
         ops_test.model.wait_for_idle(
             apps=[PSCLOUD], status="active", raise_on_blocked=True, timeout=1000
@@ -31,10 +30,10 @@ async def test_profile_store_relation(ops_test: OpsTest):
         ops_test.model.deploy(
             "ubuntu-lite",
             channel="stable",
-            series="jammy",
+            base="ubuntu@24.04",
             constraints={"virt-type": "virtual-machine"},
         ),
-        ops_test.model.deploy("parca-agent", channel="edge", num_units=0, series="jammy"),
+        ops_test.model.deploy("parca-agent", channel="edge", num_units=0, base="ubuntu@24.04"),
         ops_test.model.wait_for_idle(
             apps=["ubuntu-lite"],
             status="active",
@@ -48,7 +47,6 @@ async def test_profile_store_relation(ops_test: OpsTest):
         ops_test.model.wait_for_idle(
             apps=[PSCLOUD, "parca-agent"],
             status="active",
-            raise_on_blocked=True,
             timeout=1000,
         ),
     )

@@ -7,7 +7,7 @@
 import logging
 
 import ops
-from charms.parca.v0.parca_store import ParcaStoreEndpointProvider
+from charms.parca_k8s.v0.parca_store import ParcaStoreEndpointProvider
 
 logger = logging.getLogger(__name__)
 
