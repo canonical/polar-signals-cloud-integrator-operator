@@ -1,52 +1,46 @@
 # Copyright 2023 Jon Seager
 # See LICENSE file for licensing details.
 
-import asyncio
+import pytest
+from conftest import APP_BASE, APP_NAME, COS_CHANNEL
+from jubilant import Juju, all_active, any_error
 
-from pytest import mark
-from pytest_operator.plugin import OpsTest
-
-PSCLOUD = "polar-signals-cloud"
+PARCA_AGENT_APP_NAME = "parca-agent"
+UBUNTU_LITE_APP_NAME = "ubuntu-lite"
 
 
-@mark.abort_on_fail
-async def test_deploy(ops_test: OpsTest, charm_under_test):
-    charm = await charm_under_test
-    await asyncio.gather(
-        ops_test.model.deploy(
-            charm,
-            application_name=PSCLOUD,
-            config={"bearer_token": "deadbeef"},
-        ),
-        ops_test.model.wait_for_idle(
-            apps=[PSCLOUD], status="active", raise_on_blocked=True, timeout=1000
-        ),
+@pytest.mark.setup
+def test_deploy(juju: Juju, charm):
+    juju.deploy(charm, APP_NAME, config={"bearer_token": "deadbeef"})
+    juju.wait(all_active, timeout=5 * 60, error=any_error, delay=10, successes=3)
+
+
+@pytest.mark.setup
+def test_deploy_profile_store(juju: Juju):
+    juju.deploy(
+        UBUNTU_LITE_APP_NAME,
+        channel="stable",
+        base=APP_BASE,
+        constraints={"virt-type": "virtual-machine"},
+    )
+    juju.deploy(PARCA_AGENT_APP_NAME, channel=COS_CHANNEL, num_units=0, base=APP_BASE)
+    juju.wait(
+        lambda status: all_active(status, UBUNTU_LITE_APP_NAME),
+        timeout=5 * 60,
+        error=any_error,
+        delay=10,
+        successes=3,
     )
 
 
-@mark.abort_on_fail
-async def test_profile_store_relation(ops_test: OpsTest):
-    await asyncio.gather(
-        ops_test.model.deploy(
-            "ubuntu-lite",
-            channel="stable",
-            base="ubuntu@24.04",
-            constraints={"virt-type": "virtual-machine"},
-        ),
-        ops_test.model.deploy("parca-agent", channel="edge", num_units=0, base="ubuntu@24.04"),
-        ops_test.model.wait_for_idle(
-            apps=["ubuntu-lite"],
-            status="active",
-            raise_on_blocked=True,
-            timeout=1000,
-        ),
-    )
-    await asyncio.gather(
-        ops_test.model.integrate("ubuntu-lite", "parca-agent"),
-        ops_test.model.integrate(PSCLOUD, "parca-agent"),
-        ops_test.model.wait_for_idle(
-            apps=[PSCLOUD, "parca-agent"],
-            status="active",
-            timeout=1000,
-        ),
+@pytest.mark.abort_on_fail
+def test_integrate_profile_store(juju: Juju):
+    juju.integrate(UBUNTU_LITE_APP_NAME, PARCA_AGENT_APP_NAME)
+    juju.integrate(APP_NAME, PARCA_AGENT_APP_NAME)
+    juju.wait(
+        lambda status: all_active(status, APP_NAME, PARCA_AGENT_APP_NAME),
+        timeout=5 * 60,
+        error=any_error,
+        delay=10,
+        successes=3,
     )
