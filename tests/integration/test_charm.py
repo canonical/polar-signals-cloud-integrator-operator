@@ -33,7 +33,7 @@ async def test_profile_store_relation(ops_test: OpsTest):
             base="ubuntu@24.04",
             constraints={"virt-type": "virtual-machine"},
         ),
-        ops_test.model.deploy("parca-agent", channel="edge", num_units=0, base="ubuntu@24.04"),
+        ops_test.model.deploy("parca-agent", channel="dev/edge", num_units=0, base="ubuntu@24.04"),
         ops_test.model.wait_for_idle(
             apps=["ubuntu-lite"],
             status="active",
