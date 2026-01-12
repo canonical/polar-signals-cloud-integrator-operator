@@ -632,7 +632,7 @@ version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "typing-extensions", version = "4.13.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
-    { name = "typing-extensions", version = "4.15.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9' and python_full_version < '3.13'" },
+    { name = "typing-extensions", version = "4.15.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9' and python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/50/79/66800aadf48771f6b62f7eb014e352e5d06856655206165d775e675a02c9/exceptiongroup-1.3.1.tar.gz", hash = "sha256:8b412432c6055b0b7d14c310000ae93352ed6754f70fa8f7c34141f91c4e3219", size = 30371, upload-time = "2025-11-21T23:01:54.787Z" }
 wheels = [
@@ -1228,7 +1228,7 @@ wheels = [
 
 [[package]]
 name = "ops"
-version = "2.22.0"
+version = "2.23.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "importlib-metadata", version = "8.5.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
@@ -1239,9 +1239,9 @@ dependencies = [
     { name = "websocket-client", version = "1.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "websocket-client", version = "1.9.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1f/44/b13d1722ea3211390a9ba3c65acb7c8806168858d8568dcb52192fff161d/ops-2.22.0.tar.gz", hash = "sha256:bd1cd1229e83efb8ae2d97d8878c7db3deceb6819eb5a38fb6e235a959528ec2", size = 500975, upload-time = "2025-05-29T04:18:46.521Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/38/2d/488896632da371da6af1265c5fc6e39142f14b31d4c78a6c69cf453fcfd9/ops-2.23.1.tar.gz", hash = "sha256:aecacd67ef7ca913f63f397e0330bfa93d70529a3ef71ed2d99e2bc232564ae3", size = 527723, upload-time = "2025-07-30T06:26:55.029Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/19/09/9636766721d4d34fc0fc768d0c74f006a772368d5e68ceba6b9c32407ce5/ops-2.22.0-py3-none-any.whl", hash = "sha256:ad44326bc065e33357b47e1cf4c73e811b2fdb3c89dd0c9bdf421a7a028bdcf7", size = 182680, upload-time = "2025-05-29T04:18:44.01Z" },
+    { url = "https://files.pythonhosted.org/packages/ac/62/4b7bb8fa879c672d53cd3b58dc4df0f8cd8007e32d8bc73ec21d8bf238c6/ops-2.23.1-py3-none-any.whl", hash = "sha256:fdf58163beafd25180c12a4c7efaf1e76e5f8710508a97840c07055bb78b0c77", size = 188414, upload-time = "2025-07-30T06:26:53.361Z" },
 ]
 
 [[package]]
@@ -1373,7 +1373,7 @@ requires-dist = [
     { name = "coverage", extras = ["toml"], marker = "extra == 'dev'", specifier = "==6.5.0" },
     { name = "juju", marker = "extra == 'dev'", specifier = "==3.6.1.2" },
     { name = "macaroonbakery", marker = "extra == 'dev'", specifier = "==1.3.4" },
-    { name = "ops", specifier = "==2.22.0" },
+    { name = "ops", specifier = "==2.23.1" },
     { name = "pyright", marker = "extra == 'dev'" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==8.3.5" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = "==0.21.2" },
