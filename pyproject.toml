@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.8.6"
 
 dependencies = [
-  "ops==2.23.1",
+  "ops==3.5.1",
 ]
 
 [project.optional-dependencies]
