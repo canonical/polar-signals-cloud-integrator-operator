@@ -28,7 +28,7 @@ class PolarSignalsCloudIntegratorCharm(ops.CharmBase):
             self,
             port=443,
             insecure=False,
-            external_url="https://grpc.polarsignals.com",
+            external_url="grpc.polarsignals.com:443",
             token_generator=lambda: self.config["bearer_token"],
             relation_name="parca-store-endpoint",
         )
