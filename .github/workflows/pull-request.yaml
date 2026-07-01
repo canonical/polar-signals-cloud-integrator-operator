@@ -16,7 +16,7 @@ concurrency:
 jobs:
   pull-request:
     name: PR
-    uses: canonical/observability/.github/workflows/charm-pull-request.yaml@fb34efa1a25af16576ee3a5d5d2bc5c748370455 # v1
+    uses: canonical/observability/.github/workflows/charm-pull-request.yaml@v2
     secrets: inherit
     with:
       provider: machine
