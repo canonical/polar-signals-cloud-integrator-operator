@@ -1,5 +1,8 @@
 # Polar Signals Cloud Integrator for Charms
 
+# 🚧 Notice 🚧
+> This charm is no longer under active development and there will be no further updates.
+
 Represent the Polar Signals Cloud service in your Juju model. Use this charm to configure both
 Parca Agent and Parca Server deployments with the endpoints and token they need to send data to
 Polar Signals Cloud.
